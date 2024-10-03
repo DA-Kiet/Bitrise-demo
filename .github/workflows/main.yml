@@ -1,0 +1,18 @@
+name: Automatically assign members to issues
+
+on:
+  issues:
+    types: opened
+
+  workflow_dispatch:
+
+jobs:
+  assign:
+    name: Set assignees
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set assignees
+        if: ${{ toJSON(github.event.issue.assignees) == '[]' }}
+        uses: pozil/auto-assign-issue@v1
+        with:
+          assignees: DA-Kiet
