@@ -10,18 +10,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      
       - name: "Set due_on"
         id: set-due-on
-        run: echo "due_on=$(date --iso-8601=seconds -d '13 days')" >> $GITHUB_OUTPUT
-
+        run: |
+            DUE_ON=$(date --iso-8601=seconds -d '15 days')
+            echo "due_on=$DUE_ON" >> $GITHUB_OUTPUT
+#        run: echo "due_on=$(date --iso-8601=seconds -d '15 days')" >> $GITHUB_OUTPUT
+#        run: echo "due_on=$(TZ=/Asia/Ho_Chi_Minh' date --iso-8601=seconds -d '15 days' | tee -a $GITHUB_OUTPUT | sed -e 's/^/due_on=/')" >> $GITHUB_OUTPUT
+        
       - name: 'Create new milestone'
         id: create-milestone
         uses: kyoyadmoon/milestone-actions@v1.0.0
         with:
-          title: "1.0.0"
+          title: "2.0.0"
           state: "open"
-          description: "v1.0.0"
+          description: "v2.0.0"
           due_on: "${{ steps.set-due-on.outputs.due_on }}"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUBTOKEN }}"
