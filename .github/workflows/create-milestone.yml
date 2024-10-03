@@ -20,17 +20,31 @@ jobs:
       - name: "Print due_on"
         run: |
             echo "Due date is: ${{ steps.set-due-on.outputs.due_on }}"
-        
-      - name: 'Create new milestone'
-        id: create-milestone
-        uses: kyoyadmoon/milestone-actions@v1.0.0
+            
+      - name: Create new milestone via GitHub API
+        uses: actions/github-script@v6
         with:
-          title: "2.6.0"
-          state: "open"
-          description: "v2.6.0"
-          due_on: "${{ steps.set-due-on.outputs.due_on }}"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUBTOKEN }}"
+          script: |
+            const milestone = await github.rest.issues.createMilestone({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "2.5.0",
+              state: "open",
+              description: "v2.5.0",
+              due_on: "${{ steps.set-due-on.outputs.due_on }}"
+            });
+            console.log(milestone);
+        
+#      - name: 'Create new milestone'
+#        id: create-milestone
+#        uses: kyoyadmoon/milestone-actions@v1.0.0
+#        with:
+#          title: "2.6.0"
+#          state: "open"
+#          description: "v2.6.0"
+#          due_on: "${{ steps.set-due-on.outputs.due_on }}"
+#        env:
+#          GITHUB_TOKEN: "${{ secrets.GITHUBTOKEN }}"
 
       - name: "Output created milestone number"
         run: echo ${{ steps.create-milestone.outputs.number }}
