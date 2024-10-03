@@ -30,3 +30,6 @@ jobs:
 
       - name: "Output created milestone number"
         run: echo ${{ steps.create-milestone.outputs.number }}
+    
+      - name: "Print due_on"
+        run: echo "Due date: ${{ steps.set-due-on.outputs.due_on }}"
