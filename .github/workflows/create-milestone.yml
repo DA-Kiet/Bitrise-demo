@@ -23,7 +23,7 @@ jobs:
         shell: bash
         run: |
           DUE_ON=$(date -u "+%Y-%m-%dT%H:%M:%SZ" -d "14 days")
-          TITLE="MILESTONE_" + $DUE_ON
+          TITLE="MILESTONE_$DUE_ON"
 
           curl -L \
             -X POST \
