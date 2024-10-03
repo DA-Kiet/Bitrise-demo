@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Create title, description and due-date
-        id: init value
+        id: init-value
         run: |
             TITLE=v1.0.1
             DESCRIPTION=Tracking milestone for version 1.0.1
