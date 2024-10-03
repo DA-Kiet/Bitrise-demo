@@ -25,9 +25,9 @@ jobs:
         id: create-milestone
         uses: kyoyadmoon/milestone-actions@v1.0.0
         with:
-          title: "2.5.0"
+          title: "2.5.1"
           state: "open"
-          description: "v2.5.0"
+          description: "v2.5.1"
           due_on: "${{ steps.set-due-on.outputs.due_on }}"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
