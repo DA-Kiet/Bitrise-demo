@@ -18,7 +18,8 @@ jobs:
           echo "due_on=$DUE_ON" >> $GITHUB_OUTPUT
         
       - name: "Print due_on"
-        run: echo "Due date is: ${{ steps.set-due-on.outputs.due_on }}"
+        run: |
+            echo "Due date is: ${{ steps.set-due-on.outputs.due_on }}"
         
       - name: 'Create new milestone'
         id: create-milestone
