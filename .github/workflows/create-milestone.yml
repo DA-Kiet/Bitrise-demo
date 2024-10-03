@@ -23,9 +23,7 @@ jobs:
         shell: bash
         run: |
           DUE_ON=$(date -u "+%Y-%m-%dT%H:%M:%SZ" -d "14 days")
-          TITLE="MILESTONE_$DUE_ON"
-
-          echo "Due On with Prefix: $TITLE"
+          TITLE="MILESTONE_$(date -u "+%Y-%m-%d")"
 
           curl -L \
             -X POST \
@@ -33,4 +31,4 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.GITHUBTOKEN }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ secrets.OWNER_NAME }}/Bitrise-demo/milestones \
-            -d "{\"title\":\"$TITLE\",\"state\":\"open\",\"due_on\":\"$DUE_ON\"}")
+            -d '{\"title\":\"$TITLE\",\"state\":\"open\",\"due_on\":\"$DUE_ON\"}'
