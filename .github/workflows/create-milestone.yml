@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: develop
 
       - name: "Set due_on"
         id: set-due-on
@@ -26,7 +24,7 @@ jobs:
           description: "v1.0.0"
           due_on: "${{ steps.set-due-on.outputs.due_on }}"
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.GITHUBTOKEN }}"
 
       - name: "Output created milestone number"
         run: echo ${{ steps.create-milestone.outputs.number }}
