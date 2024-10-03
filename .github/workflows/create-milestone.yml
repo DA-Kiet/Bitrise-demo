@@ -30,7 +30,7 @@ jobs:
           description: "v2.6.0"
           due_on: "${{ steps.set-due-on.outputs.due_on }}"
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.GITHUBTOKEN }}"
 
       - name: "Output created milestone number"
         run: echo ${{ steps.create-milestone.outputs.number }}
