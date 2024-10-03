@@ -1,27 +1,41 @@
 name: Create Milestone
 
 on:
-    issues:
-        types: [opened]
-        
+  push:
+    branches:
+      - main
+      
 jobs:
   generate:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: 'Get Previous tag'
-        id: previoustag
-        uses: "WyriHaximus/github-action-get-previous-tag@v1"
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      - name: 'Get next minor version'
-        id: semvers
-        uses: "WyriHaximus/github-action-next-semvers@v1"
+      - uses: actions/checkout@v2
         with:
-          version: ${{ steps.previoustag.outputs.tag }}
+          ref: main
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+
+      - name: set due_on
+        id: set-due-on
+        run: echo "::set-output name=due_on::$(date -d '13 days' '+%s')"
+
       - name: 'Create new milestone'
-        id: createmilestone
-        uses: "WyriHaximus/github-action-create-milestone@v1"
+        id: create-milestone
+        uses: kyoyadmoon/milestone-actions@v1.0.0
         with:
-          title: ${{ steps.semvers.outputs.patch }}
+          title: "1.7.0"
+          description: "test desc"
+          due_on: "${{ steps.set-due-on.outputs.due_on }}"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: echo Milestone number
+        run: echo ${{ steps.create-milestone.outputs.number }}
+
+      - name: echo Milestone id
+        run: echo ${{ steps.create-milestone.outputs.id }}
+
+      - name: echo Milestone html_url
+        run: echo ${{ steps.create-milestone.outputs.html_url }}
