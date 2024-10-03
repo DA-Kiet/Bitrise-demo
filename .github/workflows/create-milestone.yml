@@ -4,37 +4,29 @@ on:
   push:
     branches:
       - main
-      
+
 jobs:
-  generate:
+  Create Milestone:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
         with:
-          node-version: '20'
+          ref: develop
 
-      - name: set due_on
+      - name: "Set due_on"
         id: set-due-on
-        run: echo "due_on=$(date -d '13 days' '+%s')" >> $GITHUB_OUTPUT
+        run: echo "DUE_ON=$(date --iso-8601=seconds -d '13 days')" >> $GITHUB_OUTPUT
 
-      - name: 'Create new milestone'
+      - name: "Create a new milestone"
         id: create-milestone
-        uses: kyoyadmoon/milestone-actions@v1.0.0
+        uses: oinume/create-scheduled-milestone-action@v1
         with:
-          title: "1.7.0"
-          description: "test desc"
-          due_on: "${{ steps.set-due-on.outputs.due_on }}"
+          title: "1.0.0"
+          state: "open"
+          description: "v1.0.0"
+          due_on: "${{ env.DUE_ON }}"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          GITHUB_REPOSITORY: "${{ github.repository }}"
 
-      - name: echo Milestone number
+      - name: "Output created milestone number"
         run: echo ${{ steps.create-milestone.outputs.number }}
-
-      - name: echo Milestone id
-        run: echo ${{ steps.create-milestone.outputs.id }}
-
-      - name: echo Milestone html_url
-        run: echo ${{ steps.create-milestone.outputs.html_url }}
