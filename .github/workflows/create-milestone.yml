@@ -16,20 +16,20 @@ jobs:
         run: |
             DUE_ON=$(date -u "+%Y-%m-%dT%H:%M:%SZ" -d "15 days")
             echo "due_on=$DUE_ON" >> $GITHUB_OUTPUT
+            
+      - name: "Print due_on"
+        run: echo "Due date: ${{ steps.set-due-on.outputs.due_on }}"
         
       - name: 'Create new milestone'
         id: create-milestone
         uses: kyoyadmoon/milestone-actions@v1.0.0
         with:
-          title: "2.1.0"
+          title: "2.2.0"
           state: "open"
-          description: "v2.1.0"
+          description: "v2.2.0"
           due_on: "${{ steps.set-due-on.outputs.due_on }}"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUBTOKEN }}"
 
       - name: "Output created milestone number"
         run: echo ${{ steps.create-milestone.outputs.number }}
-    
-      - name: "Print due_on"
-        run: echo "Due date: ${{ steps.set-due-on.outputs.due_on }}"
