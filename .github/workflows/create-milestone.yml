@@ -24,6 +24,8 @@ jobs:
         run: |
           DUE_ON=$(date -u "+%Y-%m-%dT%H:%M:%SZ" -d "14 days")
           TITLE="MILESTONE_$(date -u "+%Y-%m-%d")"
+          
+          echo "Milestone title: $TITLE"
 
           curl -L \
             -X POST \
