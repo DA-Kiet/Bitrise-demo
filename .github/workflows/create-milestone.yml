@@ -1,4 +1,4 @@
-name: Create Milestone
+name: Create milestone
 
 on:
   push:
@@ -11,30 +11,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Set title, description and due-date
-        id: init-value
-        run: |
-            DUE_ON=$(date -u "+%Y-%m-%dT%H:%M:%SZ" -d "14 days")
-            echo "milestone_title=v3.0.0" >> $GITHUB_OUTPUT
-            echo "due_on=$DUE_ON" >> $GITHUB_OUTPUT
+#      - name: Set title, description and due-date
+#        id: init-value
+#        run: |
+#            DUE_ON=$(date -u "+%Y-%m-%dT%H:%M:%SZ" -d "14 days")
+#            echo "milestone_title=v3.0.0" >> $GITHUB_OUTPUT
+#            echo "due_on=$DUE_ON" >> $GITHUB_OUTPUT
       
       - name: Create new milestone via GitHub API
         id: create-milestone
         shell: bash
         run: |
-          response=$(curl -L \
+          DUE_ON=$(date -u "+%Y-%m-%dT%H:%M:%SZ" -d "14 days")
+
+          curl -L \
             -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GITHUBTOKEN }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ secrets.OWNER_NAME }}/Bitrise-demo/milestones \
-            -d '{"title":"${{ steps.init-value.outputs.milestone_title }}","state":"open","due_on":"${{ steps.init-value.outputs.due_on }}"}')
-    
-          # Extract milestone number using jq
-          milestone_number=$(echo "$response" | jq -r '.number')
-
-          # Output the milestone number to be used in later steps
-          echo "milestone_number=$milestone_number" >> $GITHUB_OUTPUT
-
-      - name: Output milestone number
-        run: echo ${{ steps.create-milestone.outputs.milestone_number }}
+            -d '{"title":"MILESTONE_$DUE_ON","state":"open","due_on":"$DUE_ON"}'
