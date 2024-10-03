@@ -9,17 +9,19 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+      - uses: actions/checkout@v3
         with:
-          ref: main
+          ref: develop
 
-      - uses: actions/setup-node@v1
+      - name: Setup Node.js
+      - uses: actions/setup-node@v3
         with:
-          node-version: '10.x'
+          node-version: '20'
 
       - name: set due_on
         id: set-due-on
-        run: echo "::set-output name=due_on::$(date -d '13 days' '+%s')"
+        run: echo "due_on=$(date -d '13 days' '+%s')" >> $GITHUB_OUTPUT
 
       - name: 'Create new milestone'
         id: create-milestone
@@ -30,6 +32,7 @@ jobs:
           due_on: "${{ steps.set-due-on.outputs.due_on }}"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_REPOSITORY: "${{ github.repository }}"
 
       - name: echo Milestone number
         run: echo ${{ steps.create-milestone.outputs.number }}
