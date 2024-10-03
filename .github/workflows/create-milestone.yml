@@ -14,8 +14,8 @@ jobs:
       - name: Set title, description and due-date
         id: init-value
         run: |
-            DUE_ON=$(date -u "+%Y-%m-%dT%H:%M:%SZ" -d "15 days")
-            echo "milestone_title=v1.0.1" >> $GITHUB_OUTPUT
+            DUE_ON=$(date -u "+%Y-%m-%dT%H:%M:%SZ" -d "14 days")
+            echo "milestone_title=v3.0.0" >> $GITHUB_OUTPUT
             echo "due_on=$DUE_ON" >> $GITHUB_OUTPUT
       
       - name: Create new milestone via GitHub API
