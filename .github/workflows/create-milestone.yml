@@ -11,14 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: "Set due_on"
-        id: set-due-on
-        run: |
-            DUE_ON=$(date -u "+%Y-%m-%dT%H:%M:%SZ" -d "15 days")
-            echo "due_on=$DUE_ON" >> $GITHUB_OUTPUT
-            
-      - name: "Print due_on"
-        run: echo "Due date: ${{ steps.set-due-on.outputs.due_on }}"
+#      - name: "Set due_on"
+#        id: set-due-on
+#        run: |
+#            DUE_ON=$(date -u "+%Y-%m-%dT%H:%M:%SZ" -d "15 days")
+#            echo "due_on=$DUE_ON" >> $GITHUB_OUTPUT
         
       - name: 'Create new milestone'
         id: create-milestone
@@ -27,7 +24,7 @@ jobs:
           title: "2.2.0"
           state: "open"
           description: "v2.2.0"
-          due_on: "${{ steps.set-due-on.outputs.due_on }}"
+          due_on: "$(date -u '+%Y-%m-%dT%H:%M:%SZ' -d '15 days')"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUBTOKEN }}"
 
