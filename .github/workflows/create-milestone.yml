@@ -13,15 +13,15 @@ jobs:
       
       - name: "Set due_on"
         id: set-due-on
-        run: echo "due_on=$(date --iso-8601=seconds -d '13 days')" >> $GITHUB_ENV
+        run: echo "due_on=$(date --iso-8601=seconds -d '15 days')" >> $GITHUB_OUTPUT
         
       - name: 'Create new milestone'
         id: create-milestone
         uses: kyoyadmoon/milestone-actions@v1.0.0
         with:
-          title: "2.2.1"
+          title: "2.3.0"
           state: "open"
-          description: "v2.2.1"
+          description: "v2.3.0"
           due_on: "${{ steps.set-due-on.outputs.due_on }}"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUBTOKEN }}"
