@@ -34,6 +34,8 @@ jobs:
               due_on: "${{ steps.set-due-on.outputs.due_on }}"
             });
             console.log(milestone);
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUBTOKEN }}"
         
 #      - name: 'Create new milestone'
 #        id: create-milestone
