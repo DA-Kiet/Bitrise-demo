@@ -1,0 +1,28 @@
+name: Close milestone on Version up Pull Request completion
+
+on:
+  workflow_run:
+    workflows: ["version_up"]
+    types:
+      - completed
+    conclusion: success
+
+jobs:
+  close_milestone:
+    name: Close milestone
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set extra data
+        id: extra
+        shell: bash
+        run: |
+          head_branch=${{ github.event.workflow_run.head_branch }}
+          version=${head_branch##*/}
+          echo "milestone_title=v${version}" >> $GITHUB_OUTPUT
+
+      - uses: Beakyn/gha-close-milestone@v1.1.1
+        env:
+          GITHUB_TOKEN: ${{ github.GITHUBTOKEN }}
+        with:
+          repository: ${{ github.repository }}
+          milestone-title: ${{ steps.extra.outputs.milestone_title }}
